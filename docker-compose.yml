@@ -1,0 +1,56 @@
+version: "3.7"
+
+services:
+  keycloak:
+    image: 
+    command: 
+    environment:
+      KEYCLOAK_ADMIN: admin
+      DB_VENDOR: "POSTGRES" 
+      DB_ADDR: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+    networks:
+      public:
+      keycloak:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        traefik.http.routers.node-red.rule: Host(`node-red.bad-belzig.klima-daten.de`)
+        traefik.http.routers.node-red.tls: "true"
+        traefik.http.routers.node-red.tls.certresolver: default
+        traefik.docker.network: public
+        traefik.http.services.node-red.loadbalancer.server.port: 1880
+        traefik.enable: "true"
+    secrets:
+      - postgres-password
+      - keycloak-admin-password
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15.1-alpine
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    secrets:
+      - postgres-password
+
+volumes:
+  postgres-data:
+    external: true
+
+secrets:
+  keycloak-admin-password:
+    external: true
+  postgres-password:
+    external: true
+
+networks:
+  public:
+    external: true
+  keycloak:
+    external: true
