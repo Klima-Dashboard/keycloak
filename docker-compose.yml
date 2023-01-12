@@ -2,8 +2,7 @@ version: "3.7"
 
 services:
   keycloak:
-    image: 
-    command: 
+    image: registry.gitlab.tpwd.de/tpwd/klima-dashboard/keycloak:latest
     environment:
       KEYCLOAK_ADMIN: admin
       DB_VENDOR: "POSTGRES" 
@@ -18,11 +17,11 @@ services:
       restart_policy:
         condition: on-failure
       labels:
-        traefik.http.routers.node-red.rule: Host(`node-red.bad-belzig.klima-daten.de`)
-        traefik.http.routers.node-red.tls: "true"
-        traefik.http.routers.node-red.tls.certresolver: default
+        traefik.http.routers.keycloak.rule: Host(`keycloak.klima-daten.de`)
+        traefik.http.routers.keycloak.tls: "true"
+        traefik.http.routers.keycloak.tls.certresolver: default
         traefik.docker.network: public
-        traefik.http.services.node-red.loadbalancer.server.port: 1880
+        traefik.http.services.keycloak.loadbalancer.server.port: 8080
         traefik.enable: "true"
     secrets:
       - postgres-password
