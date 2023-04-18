@@ -9,6 +9,8 @@ services:
       DB_ADDR: postgres
       DB_PORT: 5432
       DB_USER: postgres
+    volumes:
+      - keycloak-data:/opt/keycloak/data/h2
     networks:
       public:
       keycloak:
@@ -40,6 +42,8 @@ services:
 
 volumes:
   postgres-data:
+    external: true
+  keycloak-data:
     external: true
 
 secrets:
