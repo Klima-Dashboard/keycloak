@@ -5,10 +5,12 @@ services:
     image: registry.gitlab.tpwd.de/tpwd/klima-dashboard/keycloak:latest
     environment:
       KEYCLOAK_ADMIN: admin
-      DB_VENDOR: "POSTGRES" 
-      DB_ADDR: postgres
-      DB_PORT: 5432
-      DB_USER: postgres
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_DATABASE: postgres
+      KC_DB_URL_PORT: 5432
+      KC_DB_USERNAME: postgres
+      KC_HOSTNAME: keycloak.klima-daten.de
     volumes:
       - keycloak-data:/opt/keycloak/data/h2
     networks:
@@ -39,6 +41,8 @@ services:
       - postgres-data:/var/lib/postgresql/data
     secrets:
       - postgres-password
+    networks:
+      - keycloak
 
 volumes:
   postgres-data:
