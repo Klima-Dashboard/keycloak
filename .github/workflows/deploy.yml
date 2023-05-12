@@ -5,6 +5,21 @@ on:
     branches: [ main ]
 
 jobs:
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: >-
+          docker build .
+          -f Dockerfile
+          -t ghcr.io/klima-dashboard/keycloak:latest
+      - run: docker push ghcr.io/klima-dashboard/keycloak:latest
   deploy:
     runs-on: ubuntu-latest
     container: r.planetary-quantum.com/quantum-public/cli:2
@@ -12,7 +27,7 @@ jobs:
       QUANTUM_USER: ${{ secrets.QUANTUM_USER }}
       QUANTUM_PASSWORD: ${{ secrets.QUANTUM_PASSWORD }}
       QUANTUM_ENDPOINT: "tpwd-klimadashboard"
-      QUANTUM_STACK: "wordpress"
+      QUANTUM_STACK: "keycloak"
     steps:
       - uses: actions/checkout@v3
       - name: Deploy to Planetary Quantum
