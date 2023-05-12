@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   keycloak:
-    image: registry.gitlab.tpwd.de/tpwd/klima-dashboard/keycloak:latest
+    image: ghcr.io/klima-dashboard/keycloak:latest
     environment:
       KC_DB: "mariadb"
       KC_DB_USERNAME: root
