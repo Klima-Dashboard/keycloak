@@ -18,8 +18,8 @@ jobs:
       - run: >-
           docker build .
           -f Dockerfile
-          -t ghcr.io/klima-dashboard/keycloak:latest
-      - run: docker push ghcr.io/klima-dashboard/keycloak:latest
+          -t ghcr.io/klima-dashboard/keycloak:michendorf
+      - run: docker push ghcr.io/klima-dashboard/keycloak:michendorf
   deploy:
     runs-on: ubuntu-latest
     container: r.planetary-quantum.com/quantum-public/cli:2
