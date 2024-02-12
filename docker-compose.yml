@@ -6,7 +6,7 @@ services:
     environment:
       KC_DB: "mariadb"
       KC_DB_USERNAME: root
-      KC_HOSTNAME: keycloak.klima-daten.de
+      KC_HOSTNAME: keycloak.michendorf.klima-daten.de
       KC_DB_URL: 'jdbc:mariadb://mariadb:3306/mysql'
       KC_TRANSACTION_XA_ENABLED: 'false'
     networks:
@@ -17,43 +17,40 @@ services:
       restart_policy:
         condition: on-failure
       labels:
-        traefik.http.routers.keycloak.rule: Host(`keycloak.klima-daten.de`)
+        traefik.http.routers.keycloak.rule: Host(`keycloak.michendorf.klima-daten.de`)
         traefik.http.routers.keycloak.tls: "true"
         traefik.http.routers.keycloak.tls.certresolver: default
         traefik.docker.network: public
         traefik.http.services.keycloak.loadbalancer.server.port: 8080
         traefik.enable: "true"
     secrets:
-      - mariadb-keycloak-password
-      - keycloak-admin-password
+      - michendorf-mariadb-keycloak-password
+      - michendorf-keycloak-admin-password
     depends_on:
       - mariadb 
 
   mariadb:
     image: mariadb:10.11
     environment:
-      - MARIADB_ROOT_PASSWORD_FILE=/run/secrets/mariadb-keycloak-password
+      - MARIADB_ROOT_PASSWORD_FILE=/run/secrets/michendorf-mariadb-keycloak-password
     volumes:
       - mariadb-keycloak-data:/var/lib/mysql
     secrets:
-      - mariadb-keycloak-password
+      - michendorf-mariadb-keycloak-password
     networks:
       - keycloak
 
 volumes:
   mariadb-keycloak-data:
-    external: true
   keycloak-data:
-    external: true
 
 secrets:
-  keycloak-admin-password:
+  michendorf-keycloak-admin-password:
     external: true
-  mariadb-keycloak-password:
+  michendorf-mariadb-keycloak-password:
     external: true
 
 networks:
   public:
     external: true
   keycloak:
-    external: true

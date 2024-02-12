@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ release/michendorf ]
 
 jobs:
   build: 
@@ -27,7 +27,7 @@ jobs:
       QUANTUM_USER: ${{ secrets.QUANTUM_USER }}
       QUANTUM_PASSWORD: ${{ secrets.QUANTUM_PASSWORD }}
       QUANTUM_ENDPOINT: "tpwd-klimadashboard"
-      QUANTUM_STACK: "keycloak"
+      QUANTUM_STACK: "michendorf-keycloak"
     steps:
       - uses: actions/checkout@v3
       - name: Deploy to Planetary Quantum
