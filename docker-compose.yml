@@ -9,6 +9,7 @@ services:
       KC_HOSTNAME: keycloak.michendorf.klima-daten.de
       KC_DB_URL: 'jdbc:mariadb://mariadb:3306/mysql'
       KC_TRANSACTION_XA_ENABLED: 'false'
+      KEYCLOAK_ADMIN: admin
     networks:
       public:
       keycloak:
