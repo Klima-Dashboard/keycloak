@@ -17,11 +17,11 @@ services:
       restart_policy:
         condition: on-failure
       labels:
-        traefik.http.routers.keycloak.rule: Host(`keycloak.michendorf.klima-daten.de`)
-        traefik.http.routers.keycloak.tls: "true"
-        traefik.http.routers.keycloak.tls.certresolver: default
+        traefik.http.routers.keycloak-michendorf.rule: Host(`keycloak.michendorf.klima-daten.de`)
+        traefik.http.routers.keycloak-michendorf.tls: "true"
+        traefik.http.routers.keycloak-michendorf.tls.certresolver: default
         traefik.docker.network: public
-        traefik.http.services.keycloak.loadbalancer.server.port: 8080
+        traefik.http.services.keycloak-michendorf.loadbalancer.server.port: 8080
         traefik.enable: "true"
     secrets:
       - michendorf-mariadb-keycloak-password
